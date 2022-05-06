@@ -1,0 +1,9 @@
+.container-weather-container{
+    color: black;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.today-current-temp{
+    margin-left: 100px;
+}
