@@ -10,6 +10,7 @@ import { FavoritePage } from "./components/FavoritePage";
 import {Button} from 'react-bootstrap'
 import {useDispatch} from "react-redux";
 import {useSelector} from "react-redux";
+import {DynamicHeader} from "./style/dynamicHeader"
 
 
 
@@ -107,7 +108,7 @@ const App =()=> {
     return (
         <div className="App">
             <NavBar/>
-            <h1 className="m-5">Weather Forecast App</h1>
+            <DynamicHeader text ="Weather Forecast App"></DynamicHeader>
             <br/>
             <Switch>
                 <Route path='/favorite' >
@@ -124,7 +125,7 @@ const App =()=> {
                                     cityCode={sweetItem.cityCode.codeHolder}
                                 >
                                 </FavoritePage>
-                        ) : <h1>No Favorites Added</h1>}
+                        ) : <Button variant="outline-secondary">No favorites added yet</Button>}
                     </div>
                 </Route>
                 <Route path='/'>
