@@ -40,7 +40,7 @@ const App =()=> {
     useEffect(() => {
         const getLocations = async () => {
             const locations = await axios.get(
-                `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=keIkcwQuwHMsCqZJawOVskNUec3ErVQq&q=${searchedItem}&language=en-us`
+                `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=gnAuSabdsDkVLyrgGl8UjG4Oq5nQJnYB&q=${searchedItem}&language=en-us`
             );
             const cityCountry = [];
             for (let location of locations.data) {
@@ -58,10 +58,10 @@ const App =()=> {
 
         try {
             const forecast = await axios.get(
-                `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${value}?apikey=keIkcwQuwHMsCqZJawOVskNUec3ErVQq&details=true&metric=true`
+                `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${value}?apikey=gnAuSabdsDkVLyrgGl8UjG4Oq5nQJnYB&details=true&metric=true`
             );
             const todayForecast1 = await axios.get(
-                `https://dataservice.accuweather.com/currentconditions/v1/${value}?apikey=keIkcwQuwHMsCqZJawOVskNUec3ErVQq&details=true&metric=true`
+                `https://dataservice.accuweather.com/currentconditions/v1/${value}?apikey=gnAuSabdsDkVLyrgGl8UjG4Oq5nQJnYB&details=true&metric=true`
             );
             setTodayForecast(todayForecast1);
             setWeatherForcast(forecast.data.DailyForecasts);
