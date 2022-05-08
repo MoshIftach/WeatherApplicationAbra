@@ -25,8 +25,6 @@ const App =()=> {
 
     const [searchedItem,setSearchedItem] = useState("");
 
-    const [favoriteList,setFavotiteList] = useState([]);
-
     const [codeHolder,setCodeHolder] = useState('');
 
     const [todayForecast,setTodayForecast] = useState([])
@@ -41,7 +39,7 @@ const App =()=> {
     useEffect(() => {
         const getLocations = async () => {
             const locations = await axios.get(
-                `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=keIkcwQuwHMsCqZJawOVskNUec3ErVQq&q=${searchedItem}&language=en-us`
+                `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=keIkcwQuwHMsCqZJawOVskNUec3ErVQq&q=${searchedItem}&language=en-us`
             );
             const cityCountry = [];
             for (let location of locations.data) {
@@ -56,14 +54,20 @@ const App =()=> {
     }, [searchedItem])
 
     const getForcast = async value => {
-        const forecast = await axios.get(
-            `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${value}?apikey=keIkcwQuwHMsCqZJawOVskNUec3ErVQq&details=true&metric=true`
-        );
-        const todayForecast1 = await axios.get(
-            `http://dataservice.accuweather.com/currentconditions/v1/${value}?apikey=keIkcwQuwHMsCqZJawOVskNUec3ErVQq&details=true&metric=true`
-        );
-        setTodayForecast(todayForecast1);
-        setWeatherForcast(forecast.data.DailyForecasts);
+
+        try {
+            const forecast = await axios.get(
+                `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${value}?apikey=keIkcwQuwHMsCqZJawOVskNUec3ErVQq&details=true&metric=true`
+            );
+            const todayForecast1 = await axios.get(
+                `https://dataservice.accuweather.com/currentconditions/v1/${value}?apikey=keIkcwQuwHMsCqZJawOVskNUec3ErVQq&details=true&metric=true`
+            );
+            setTodayForecast(todayForecast1);
+            setWeatherForcast(forecast.data.DailyForecasts);
+        } catch (err) {
+            console.log(err)
+            throw err
+        }
     };
 
     const handleOnChange = (city, code) => {
@@ -89,10 +93,11 @@ const App =()=> {
             selectedCity: {selectedCity},
             weatherData: {weatherForcast},
             key : {temp1},
-            todayData:{todayForecast}
+            todayData:{todayForecast},
+            cityCode:{codeHolder}
+
         }
         dispatch({type:'ADD_FAVORITE', favorites: tempList});
-        setFavotiteList([favoCodes]);
     }
 
     const handleOnRemoveFavoritesMain =() =>{
@@ -104,8 +109,6 @@ const App =()=> {
             <NavBar/>
             <h1 className="m-5">Weather Forecast App</h1>
             <br/>
-            <h3>Abra</h3>
-
             <Switch>
                 <Route path='/favorite' >
                     <div>
@@ -117,7 +120,9 @@ const App =()=> {
                                     selectedCity={sweetItem.selectedCity.selectedCity}
                                     weatherData={sweetItem.weatherData.weatherForcast}
                                     key={sweetItem.key.temp1}
-                                    todayData={sweetItem.todayData.todayForecast}>
+                                    todayData={sweetItem.todayData.todayForecast}
+                                    cityCode={sweetItem.cityCode.codeHolder}
+                                >
                                 </FavoritePage>
                         ) : <h1>No Favorites Added</h1>}
                     </div>

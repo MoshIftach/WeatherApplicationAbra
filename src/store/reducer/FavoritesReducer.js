@@ -11,6 +11,10 @@ export function FavoritesReducer(state =initialState , action) {
             return {
                 favorites: []
             }
+        case 'DELETE_ONE_FAVORITE':
+            return {
+                favorites: state.favorites.filter(favorite => +favorite.cityCode.codeHolder !== +action.currentKey)
+            }
         default:
             return state
     }
